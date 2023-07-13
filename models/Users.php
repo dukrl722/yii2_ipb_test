@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "users".
@@ -67,5 +68,12 @@ class Users extends \yii\db\ActiveRecord
         $model = $this::find()->asArray()->all();
 
         return ArrayHelper::map($model, 'ID', 'name');
+    }
+
+    public function getshortNameLabel()
+    {
+        $name = explode(' ', $this->name);
+
+        return Html::a($name[0] . ' ' . end($name), ['tasks/index', 'user_id' => $this->ID]);
     }
 }

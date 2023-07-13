@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\TasksSearch;
 use app\models\Users;
+use Faker\Test\Provider\Collection;
+use http\Client\Response;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,8 +68,14 @@ class UsersController extends Controller
      */
     public function actionView($ID)
     {
+        $searchModel = new TasksSearch();
+        $tasks = $searchModel->search([
+            'user_id' => $ID
+        ]);
+
         return $this->render('view', [
             'model' => $this->findModel($ID),
+            'dataProvider' => $tasks
         ]);
     }
 

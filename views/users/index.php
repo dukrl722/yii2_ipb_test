@@ -25,8 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'name:ntext',
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'label' => 'Nome',
+                'value' => function ($data) {
+                    return $data->getshortNameLabel();
+                }
+            ],
             'date_of_birth',
             'email:ntext',
             'gender',
@@ -34,7 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Users $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'ID' => $model->ID]);
-                 }
+                },
+                'buttons' => [
+                    'tasks' => function($action, Users $model, $key) {
+                        $icon = include $_SERVER['DOCUMENT_ROOT'] . '/yii2_ipb_test/assets/svg/task_icon_svg.php';
+                        return Html::a($icon, ['tasks/index', 'user_id' => $model->ID]);
+                    }
+                ],
+                'template' => '{view} {update} {delete} {tasks}',
+
             ],
         ],
     ]); ?>

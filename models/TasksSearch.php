@@ -67,6 +67,10 @@ class TasksSearch extends Tasks
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);
 
+        if (!empty($params['user_id'])) {
+            $dataProvider->query->andWhere(['user_id' => $params['user_id']]);
+        }
+
         return $dataProvider;
     }
 }
